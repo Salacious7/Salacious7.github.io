@@ -2,64 +2,34 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Survey</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="test.js"></script>
-  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    
+    <title>Todo</title>
 </head>
 
 <body>
-  <h1 id="title">🍑  Sex Survey  🍑</h1>
-  <p id="description">🍆 What turns you on? 🍆</p>
-  <div id="form">
-  <form id="survey-form">
-    <div>
-      <label id="name-label">Name: <input id="name" type="text" placeholder="name" required></label>
-      <label id="number-label">Age: <input id="number" type="number" min="18" max="120" placeholder="age"></label>
+    <div id="app-border">
+        <div id="app-cont">
+            <div id="title">
+                <h1>Salacious' Garbage<br>To-Do List</h1>
+            </div>
+            <div id="input-bar">
+                <input id="create-task-text" type="text" placeholder="Play league">
+                <input id="create-task-button" type="button" value="+">
+            </div>
+            <hr>
+            <div id="task-cont">
+                <ul id="task-list"></ul>
+            </div>
+            <div>
+                <input id="clear-button"" type="button" value="Clear all tasks">
+            </div>
+        </div>
     </div>
-    <div class="question">
-      <label id="gender-label">Select gender: </label>
-      <select id="dropdown">
-        <option>male</option>
-        <option>female</option>
-        <option>frog</option>
-      </select>
-    </div>
-    <hr>
-    <div class="question">
-      <label id="question2-label">Do you like feet?  <img id= "foot" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/facebook/327/foot_1f9b6.png"></label>
-      <label class="answer-label">Ye</label><input type="radio" name="button" value="button">
-      <label class="answer-label">Lemme suck dem toes</label><input type="radio" name="button" value="button">
-    </div>
-    <div class="question">
-      <label id="question2-label">Do you like piss? <img src="http://smileys.emoticonsonly.com/emoticons/p/peeing-446.gif" border="0" alt="Peeing" title = "Peeing emoticon" /> </label>
-      <label class="answer-label">Yes</label><input type="radio" name="button2" value="button">
-      <label class="answer-label">Fuck Yes</label><input type="radio" name="button2" value="button">
-    </div>
-    <div class="question">
-      <label id="question3-label">What are you attracted to?</label>
-      <label class="answer-label">Men</label><input type="checkbox" name="check" value="check">
-      <label class="answer-label">Women</label><input type="checkbox" name="check" value="check">
-      <label class="answer-label">Children</label><input type="checkbox" name="check" value="check">
-    </div>
-    <div class="question">
-      <label id="partner-label">Do you have a sex slave? </label>
-      <input id="partner" type="checkbox" name="partner">
-    </div>
-    <div class="question" id="satisfaction">
-      <label id="question2-label">How sexually satisfied are you with your partner? (On a scale from 1 to 10) </label>
-      <input type="number" min="1" max="10" value="1">
-    </div>
-    <hr>
-    <div id="submit">
-      <input type="submit" id="submit-button">
-    </div>
-    
-  </form>
-</div>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
