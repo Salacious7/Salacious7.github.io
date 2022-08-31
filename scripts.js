@@ -1,66 +1,95 @@
-let button = document.getElementById('create-task-button')
+let newTaskButton = document.getElementById('create-task-button')
 let list = document.getElementById('task-list')
 let taskText = document.getElementById('create-task-text')
-let clear = document.getElementById('clear-button')
-let todos = JSON.parse(localStorage.getItem("todos"))
-let todosObj = []
+let clearButton = document.getElementById('clear-button')
+let tasks = JSON.parse(localStorage.getItem("tasks"))
+let taskData = []
 
-if (localStorage.getItem('todos')) {
-    todosObj = JSON.parse(localStorage.getItem('todos'));
+// Add event listeners to static inputs
+clearButton.addEventListener('click', ClearTasks)
+newTaskButton.addEventListener('click', AddTask)
+taskText.addEventListener('keypress', function (e)
+{
+    if (e.key === "Enter") AddTask()
+})
+
+// Cache data objects if they exist in local storage
+if (localStorage.getItem('tasks'))
+    taskData = JSON.parse(localStorage.getItem('tasks'))
+
+function UpdateCheckbox(e)
+{
+    let checkbox = taskData.find(task => task.id === e.dataset.id)
+    checkbox.checked = !checkbox.checked
+    localStorage.setItem("tasks", JSON.stringify(taskData))
 }
 
-clear.addEventListener('click', ClearTasks)
-button.addEventListener('click', AddTask)
-taskText.addEventListener('keypress', function(e)
+function LoadTasks()
 {
-    if (e.key === "Enter") 
-        AddTask()
-})
+    let tasks = JSON.parse(localStorage.getItem("tasks"))
+    let list = document.getElementById('task-list')
+
+    list.innerHTML = ''
+
+    if (!tasks) return
+    for (let i = 0; i < tasks.length; i++)
+    {
+        list.innerHTML += `<li class="task">
+        <input type="checkbox" onclick=UpdateCheckbox(this) data-id="${tasks[i].id}" ${tasks[i].checked ? 'checked' : '' }>
+        <span onkeydown="SaveTaskText(this, this.parentElement)" onkeyup="SaveTaskText(this, this.parentElement)" contenteditable="true">${tasks[i].value}</span>
+        <input type="button" class="deleteButton" onclick="DeleteTask(this.parentElement)">
+        </li>`
+    }
+}
+
+function SaveTaskText(span, task)
+{
+    let id = task.querySelector("[type='checkbox']").dataset.id
+
+    if(span.innerHTML == '')
+    {
+        DeleteTask(task)
+        localStorage.setItem("tasks", JSON.stringify(taskData))
+        return
+    }
+
+    let toEdit = taskData.find(task => task.id === id)
+    toEdit.value = span.innerHTML
+
+    localStorage.setItem("tasks", JSON.stringify(taskData))
+}
+
+function DeleteTask(task)
+{
+    let id = task.querySelector("[type='checkbox']").dataset.id
+    let toRemove = taskData.find(task => task.id === id)
+    taskData.splice(taskData.indexOf(toRemove), 1)
+    localStorage.setItem("tasks", JSON.stringify(taskData))
+    LoadTasks()
+}
 
 function AddTask()
 {
-    if(taskText.value == '')
-        return
+    if (taskText.value == '') return
 
     taskText.value = taskText.value.charAt(0).toUpperCase() + taskText.value.slice(1)
 
-    let checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    checkbox.id = 'task-check'
+    taskData.push({ value: taskText.value, checked: false, id: '' + Date.now() })
 
-    let listObj = document.createElement('li')
-    listObj.id = 'task'
-    
-    let text = document.createTextNode(taskText.value)
-
-    listObj.appendChild(checkbox)
-    listObj.appendChild(text)
-    list.appendChild(listObj)
-
-    // Local storage
-    todosObj.push(listObj.innerHTML)
-    localStorage.setItem("todos", JSON.stringify(todosObj))
-
+    localStorage.setItem("tasks", JSON.stringify(taskData))
     taskText.value = null
+    LoadTasks()
 }
 
-function ClearTasks()
+function ClearTasks() 
 {
-    todosObj = []
+    taskData = []
+    checkObj = []
     list.innerHTML = ''
     localStorage.clear()
-
 }
 
-window.onload=function()
+window.onload = function ()
 {
-    list.innerHTML = ''
-
-    if(todos)
-    {
-        for(let i = 0; i < todos.length; i++)
-        {      
-            list.innerHTML += `<li id="task">${todos[i]}</li>`
-        }
-    }
+    LoadTasks()
 }
